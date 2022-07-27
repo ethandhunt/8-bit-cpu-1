@@ -48,5 +48,8 @@ opcode  name        length  hex     cycles
 24      portibb     1       18      3
 25      portadrbb   1       19      3
 
-26      portack1    1       1a
-27      portack2    1       1b
+26      portack1    1       1a      3
+27      portack2    1       1b      3
+
+28      portoi      2       1c      6
+29      portadri    2       1d      6

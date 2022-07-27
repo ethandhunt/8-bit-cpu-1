@@ -209,3 +209,15 @@ $27:portack2
 %fetch
 3:PORT_ACK2
 3:RST
+
+$28:portoi
+%fetch
+%arg8
+5:PORT_O RO
+5:RST
+
+$30:portadri
+%fetch
+%arg8
+5:PORT_ADDR RO
+5:RST
