@@ -173,18 +173,28 @@ $19:portadra
 
 $20:portoba
 %fetch
-3:
+3:PORT_O ABA_O
+3:RST
 
 $21:portiba
-
+%fetch
+3:PORT_I ABA_I
 
 $22:portadrba
-
+%fetch
+3:PORT_ADDR ABA_O
+3:RST
 
 $23:portobb
-
+%fetch
+3:PORT_O ABB_O
 
 $24:portibb
-
+%fetch
+3:PORT_I ABB_I
+3:RST
 
 $25:portadrbb
+%fetch
+3:PORT_ADDR ABB_O
+3:RST
