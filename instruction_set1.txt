@@ -36,14 +36,17 @@ opcode  name        length  hex     cycles
 
 16      divi        2       10      7
 
-17      portoa      1       11
-18      portia      1       12
-19      portadra    1       13
+17      portoa      1       11      3
+18      portia      1       12      3
+19      portadra    1       13      3
 
-20      portoba     1       14
-21      portiba     1       15
-22      portadrba   1       16
+20      portoba     1       14      3
+21      portiba     1       15      3
+22      portadrba   1       16      3
 
-23      portobb     1       17
-24      portibb     1       18
-25      portadrbb   1       19
+23      portobb     1       17      3
+24      portibb     1       18      3
+25      portadrbb   1       19      3
+
+26      portack1    1       1a
+27      portack2    1       1b

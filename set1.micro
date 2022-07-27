@@ -188,6 +188,7 @@ $22:portadrba
 $23:portobb
 %fetch
 3:PORT_O ABB_O
+3:RST
 
 $24:portibb
 %fetch
@@ -197,4 +198,14 @@ $24:portibb
 $25:portadrbb
 %fetch
 3:PORT_ADDR ABB_O
+3:RST
+
+$26:portack1
+%fetch
+3:PORT_ACK1
+3:RST
+
+$27:portack2
+%fetch
+3:PORT_ACK2
 3:RST
