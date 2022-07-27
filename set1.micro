@@ -216,7 +216,7 @@ $28:portoi
 5:PORT_O RO
 5:RST
 
-$30:portadri
+$29:portadri
 %fetch
 %arg8
 5:PORT_ADDR RO
