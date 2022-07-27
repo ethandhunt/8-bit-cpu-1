@@ -1,0 +1,4 @@
+bit 0: cb
+bit 1: zero
+bit 2: negative
+bit 3-7: port_flag1-5

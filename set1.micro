@@ -1,0 +1,190 @@
+%include alu_values.micro
+
+%define fetch
+0:PCHI_O ADDRHI
+1:PCLO_O ADDRLO
+2:II RO PC_INC
+%end
+
+%define arg8
+3:PCHI_O ADDRHI
+4:PCLO_O ADDRLO PC_INC
+%end
+
+%define arg16
+%end
+
+%define *arg8
+3:PCHI_O ADDRHI
+4:PCLO_O ADDRLO
+5:ABA_I RO PC_INC
+6:Z_O ADDRHI
+7:ABA_O ADDRLO
+%end
+
+%define *arg16
+3:PCHI_O ADDRHI
+4:PCLO_O ADDRLO
+5:ABA_I RO PC_INC
+6:PCHI_O ADDRHI
+7:PCLO_O ADDRLO
+8:ABB_I RO PC_INC
+9:ABA_O ADDRHI
+10:ABB_O ADDRLO
+%end
+
+$0:nop
+%fetch
+2:RST
+
+$1:ld8
+%fetch
+%*arg8
+8:AI RO
+8:RST
+
+$2:ld16
+%fetch
+%*arg16
+11:AI RO
+11:RST
+
+$3:ldi
+%fetch
+%arg8
+5:AI RO
+5:RST
+
+$4:add8
+%fetch
+%*arg8
+8:BI RO
+%ALU_add(9)
+9:ALU_O AI
+9:RST
+
+$5:add16
+%fetch
+%*arg16
+11:BI RO
+%ALU_add(12)
+12:ALU_O AI
+12:RST
+
+$6:sub8
+%fetch
+%*arg8
+8:BI RO
+%ALU_sub(9)
+9:ALU_O AI
+9:RST
+
+$7:sub16
+%fetch
+%*arg16
+11:BI RO
+%ALU_sub(12)
+12:ALU_O AI
+12:RST
+
+$8:mul8
+%fetch
+%*arg8
+8:BI RO
+%ALU_mul(9)
+9:ALU_O AI
+9:RST
+
+$9:mul16
+%fetch
+%*arg16
+11:BI RO
+%ALU_mul(12)
+12:ALU_O AI
+12:RST
+
+$10:div8
+%fetch
+%*arg8
+8:BI RO
+%ALU_div(9)
+9:ALU_O AI
+9:RST
+
+$11:div16
+%fetch
+%*arg16
+11:BI RO
+%ALU_div(12)
+12:ALU_O AI
+
+
+$12:halt
+%fetch
+3:HALT
+3:RST
+
+$13:addi
+%fetch
+%arg8
+5:BI RO
+%ALU_add(6)
+6:ALU_O AI
+6:RST
+
+$14:subi
+%fetch
+%arg8
+5:BI RO
+%ALU_sub(6)
+6:ALU_O AI
+6:RST
+
+$15:muli
+%fetch
+%arg8
+5:BI RO
+%ALU_mul(6)
+6:ALU_O AI
+6:RST
+
+$16:divi
+%fetch
+%arg8
+5:BI RO
+%ALU_div(6)
+6:ALU_O AI
+6:RST
+
+$17:portoa
+%fetch
+3:PORT_O AO
+3:RST
+
+$18:portia
+%fetch
+3:PORT_I AI
+3:RST
+
+$19:portadra
+%fetch
+3:PORT_ADDR AO
+3:RST
+
+$20:portoba
+%fetch
+3:
+
+$21:portiba
+
+
+$22:portadrba
+
+
+$23:portobb
+
+
+$24:portibb
+
+
+$25:portadrbb

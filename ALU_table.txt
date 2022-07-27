@@ -1,0 +1,18 @@
+|   operator    |   operation       |   cb_out      |   cb_in       |   arguments       |
+|---------------|-------------------|---------------|---------------|-------------------|
+|   0000 0x0    |   add             |   carry       |   carry       |   a, b, cb_in     |
+|   0001 0x1    |   sub             |   borrow      |   borrow      |   a, b, cb_in     |
+|   0010 0x2    |   mul             |   carry       |   carry       |   a, b, cb_in     |
+|   0011 0x3    |   div             |   remainder   |   highbyte    |   a, b, cb_in     |
+|   0100 0x4    |   neg             |               |               |   a               |
+|   0101 0x5    |   cmp             |               |               |   a, b            |
+|   0110 0x6    |   bitwise_nand    |               |               |   a, b            |
+|   0111 0x7    |   bitwise_xor     |               |               |   a, b            |
+|   1000 0x8    |   lrs             |               |               |   a, b            |
+|   1001 0x9    |   ars             |               |               |   a, b            |
+|   1010 0xa    |   rrs             |               |               |   a, b            |
+|   1011 0xb    |   btc             |               |               |   a               |
+|   1100 0xc    |   fl1             |   not 00      |               |   a               |
+|   1101 0xd    |   fh1             |   not 00      |               |   a               |
+|   1110 0xe    |   fl0             |   not ff      |               |   a               |
+|   1111 0xf    |   fh0             |   not ff      |               |   a               |

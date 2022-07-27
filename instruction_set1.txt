@@ -1,0 +1,49 @@
+little_endian
+
+naming convention
+operation-8/16      8 bit or 16 bit addressing
+operation-i         immediate operand value
+operation-a         uses a register as operand
+operation-ba        uses buffer a register as operand
+operation-bb        uses buffer b register as operand
+
+opcode  name        length  hex     cycles
+0       nop         1       00      3
+
+1       lda8        2       01      9
+2       lda16       3       02      12
+3       ldai        2       03      6
+
+4       add8        2       04      10
+5       add16       3       05      13
+
+6       sub8        2       06      10
+7       sub16       3       07      13
+
+8       mul8        2       08      10
+9       mul16       3       09      13
+
+10      div8        2       0a      10
+11      div16       3       0b      13
+
+12      halt        1       0c      4
+
+13      addi        2       0d      7
+
+14      subi        2       0e      7
+
+15      muli        2       0f      7
+
+16      divi        2       10      7
+
+17      portoa      1       11
+18      portia      1       12
+19      portadra    1       13
+
+20      portoba     1       14
+21      portiba     1       15
+22      portadrba   1       16
+
+23      portobb     1       17
+24      portibb     1       18
+25      portadrbb   1       19

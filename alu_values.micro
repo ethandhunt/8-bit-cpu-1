@@ -1,0 +1,62 @@
+%define ALU_add @t
+%end
+
+%define ALU_sub @t
+@t:ALU_OP1
+%end
+
+%define ALU_mul @t
+@t:ALU_OP2
+%end
+
+%define ALU_div @t
+@t:ALU_OP1 ALU_OP2
+%end
+
+%define ALU_neg @t
+@t:ALU_OP3
+%end
+
+%define ALU_cmp @t
+@t:ALU_OP1 ALU_OP3
+%end
+
+%define ALU_bitwise_nand @t
+@t:ALU_OP2 ALU_OP3
+%end
+
+%define ALU_bitwise_xor @t
+@t:ALU_OP1 ALU_OP2 ALU_OP3
+%end
+
+%define ALU_lrs @t
+@t:ALU_OP4
+%end
+
+%define ALU_ars @t
+@t:ALU_OP1 ALU_OP4
+%end
+
+%define ALU_rrs @t
+@t:ALU_OP2 ALU_OP4
+%end
+
+%define ALU_btc @t
+@t:ALU_OP1 ALU_OP2 ALU_OP4
+%end
+
+%define ALU_fl1 @t
+@t:ALU_OP3 ALU_OP4
+%end
+
+%define ALU_fh1 @t
+@t:ALU_OP1 ALU_OP3 ALU_OP4
+%end
+
+%define ALU_fl0 @t
+@t:ALU_OP2 ALU_OP3 ALU_OP4
+%end
+
+%define ALU_fh0 @t
+@t:ALU_OP1 ALU_OP2 ALU_OP3 ALU_OP4
+%end
