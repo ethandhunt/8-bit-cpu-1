@@ -1,0 +1,31 @@
+%define BITSEL_cb @t
+@t:BUS_O FLAG_BITSEL
+%end
+
+%define BITSEL_zero @t
+@t:BUS0 BUS_O FLAG_BITSEL
+%end
+
+%define BITSEL_negative @t
+@t:BUS1 BUS_O FLAG_BITSEL
+%end
+
+%define BITSEL_port_flag1 @t
+@t:BUS1 BUS0 BUS_O FLAG_BITSEL
+%end
+
+%define BITSEL_port_flag2 @t
+@t:BUS2 BUS_O FLAG_BITSEL
+%end
+
+%define BITSEL_port_flag3 @t
+@t:BUS2 BUS0 BUS_O FLAG_BITSEL
+%end
+
+%define BITSEL_port_flag4 @t
+@t:BUS2 BUS1 BUS_O FLAG_BITSEL
+%end
+
+%define BITSEL_port_flag5 @t
+@t:BUS2 BUS1 BUS0 FLAG_BITSEL
+%end

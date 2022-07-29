@@ -1,9 +1,10 @@
 %include alu_values.micro
+%include flag_bitsel_values.micro
 
 %define fetch
 0:PCHI_O ADDRHI
-1:PCLO_O ADDRLO
-2:II RO PC_INC
+1:PCLO_O ADDRLO PC_INC
+2:II RO
 %end
 
 %define arg8
@@ -12,44 +13,52 @@
 %end
 
 %define arg16
+3:PCHI_O ADDRHI
+4:PCLO_O ADDRLO PC_INC
+5:BI RO
+6:PCHI_O ADDRHI
+7:PCLO_O ADDRLO PC_INC
 %end
 
 %define *arg8
 3:PCHI_O ADDRHI
 4:PCLO_O ADDRLO
-5:ABA_I RO PC_INC
-6:Z_O ADDRHI
-7:ABA_O ADDRLO
+5:RO ADDRLO PC_INC
+6:BUS_O ADDRHI
 %end
 
 %define *arg16
 3:PCHI_O ADDRHI
-4:PCLO_O ADDRLO
-5:ABA_I RO PC_INC
+4:PCLO_O ADDRLO PC_INC
+5:BI RO
 6:PCHI_O ADDRHI
-7:PCLO_O ADDRLO
-8:ABB_I RO PC_INC
-9:ABA_O ADDRHI
-10:ABB_O ADDRLO
+7:PCLO_O ADDRLO PC_INC
+8:RO ADDRLO
+9:BO ADDRHI
+%end
+
+%define *buf
+3:ABA_O ADDRHI
+4:ABB_O ADDRLO
 %end
 
 $0:nop
 %fetch
 2:RST
 
-$1:ld8
+$1:lda8
 %fetch
 %*arg8
-8:AI RO
-8:RST
+7:AI RO
+7:RST
 
-$2:ld16
+$2:lda16
 %fetch
 %*arg16
 11:AI RO
 11:RST
 
-$3:ldi
+$3:ldai
 %fetch
 %arg8
 5:AI RO
@@ -58,10 +67,10 @@ $3:ldi
 $4:add8
 %fetch
 %*arg8
-8:BI RO
-%ALU_add(9)
-9:ALU_O AI
-9:RST
+7:BI RO
+%ALU_add(8)
+8:ALU_O AI
+8:RST
 
 $5:add16
 %fetch
@@ -74,10 +83,10 @@ $5:add16
 $6:sub8
 %fetch
 %*arg8
-8:BI RO
-%ALU_sub(9)
-9:ALU_O AI
-9:RST
+7:BI RO
+%ALU_sub(8)
+8:ALU_O AI
+8:RST
 
 $7:sub16
 %fetch
@@ -90,10 +99,10 @@ $7:sub16
 $8:mul8
 %fetch
 %*arg8
-8:BI RO
-%ALU_mul(9)
-9:ALU_O AI
-9:RST
+7:BI RO
+%ALU_mul(8)
+8:ALU_O AI
+8:RST
 
 $9:mul16
 %fetch
@@ -106,10 +115,10 @@ $9:mul16
 $10:div8
 %fetch
 %*arg8
-8:BI RO
-%ALU_div(9)
-9:ALU_O AI
-9:RST
+7:BI RO
+%ALU_div(8)
+8:ALU_O AI
+8:RST
 
 $11:div16
 %fetch
@@ -220,4 +229,365 @@ $29:portadri
 %fetch
 %arg8
 5:PORT_ADDR RO
+5:RST
+
+$30:jmp8
+%fetch
+%arg8
+5:BUS_O PCHI_LD
+6:RO PCLO_LD
+6:RST
+
+$31:jmp16
+%fetch
+%arg16
+8:BO PCHI_LD
+9:RO PCLO_LD
+9:RST
+
+$32:jmpbuf
+%fetch
+3:ABA_O PCHI_LD
+4:ABB_O PCLO_LD
+4:RST
+
+$33:jmpcnd8
+%fetch
+%arg8
+5:BUS_O PCHI_LDC
+6:RO PCLO_LDC
+6:RST
+
+$34:jmpcnd16
+%fetch
+%arg16
+8:BO PCHI_LDC
+9:RO PCLO_LDC
+9:RST
+
+$35:jmpcndbuf
+%fetch
+3:ABA_O PCHI_LDC
+4:ABB_O PCLO_LDC
+
+$36:setcnda
+%fetch
+3:AO FLAG_BITSEL
+3:RST
+
+$37:setcndba
+%fetch
+3:ABA_O FLAG_BITSEL
+3:RST
+
+$38:setcndbb
+%fetch
+3:ABB_O FLAG_BITSEL
+3:RST
+
+$39:setcndi
+%fetch
+%arg8
+5:RO FLAG_BITSEL
+5:RST
+
+$40:jc8
+%fetch
+%arg8
+%BITSEL_cb(5)
+6:BUS_O PCHI_LDC
+7:RO PCLO_LDC
+7:RST
+
+$41:jz8
+%fetch
+%arg8
+%BITSEL_zero(5)
+6:BUS_O PCHI_LDC
+7:RO PCLO_LDC
+7:RST
+
+$42:jn8
+%arg8
+%BITSEL_negative(5)
+6:BUS_O PCHI_LDC
+7:RO PCLO_LDC
+7:RST
+%fetch
+
+$43:jpf1_8
+%fetch
+%arg8
+%BITSEL_port_flag1(5)
+6:BUS_O PCHI_LDC
+7:RO PCLO_LDC
+7:RST
+
+$44:jpf2_8
+%fetch
+%arg8
+%BITSEL_port_flag2(5)
+6:BUS_O PCHI_LDC
+7:RO PCLO_LDC
+7:RST
+
+$45:jpf3_8
+%fetch
+%arg8
+%BITSEL_port_flag3(5)
+6:BUS_O PCHI_LDC
+7:RO PCLO_LDC
+7:RST
+
+$46:jpf4_8
+%fetch
+%arg8
+%BITSEL_port_flag4(5)
+6:BUS_O PCHI_LDC
+7:RO PCLO_LDC
+7:RST
+
+$47:jpf5_8
+%fetch
+%arg8
+%BITSEL_port_flag5(5)
+6:BUS_O PCHI_LDC
+7:RO PCLO_LDC
+7:RST
+
+$48:jc16
+%fetch
+%arg16
+%BITSEL_cb(8)
+9:BO PCHI_LDC
+10:RO PCLO_LDC
+10:RST
+
+$49:jz16
+%fetch
+%arg16
+%BITSEL_zero(8)
+9:BO PCHI_LDC
+10:RO PCLO_LDC
+10:RST
+
+$50:jn16
+%fetch
+%arg16
+%BITSEL_negative(8)
+9:BO PCHI_LDC
+10:RO PCLO_LDC
+10:RST
+
+$51:jpf1_16
+%fetch
+%arg16
+%BITSEL_port_flag1(8)
+9:BO PCHI_LDC
+10:RO PCLO_LDC
+10:RST
+
+$52:jpf2_16
+%fetch
+%arg16
+%BITSEL_port_flag2(8)
+9:BO PCHI_LDC
+10:RO PCLO_LDC
+10:RST
+
+$53:jpf3_16
+%fetch
+%arg16
+%BITSEL_port_flag3(8)
+9:BO PCHI_LDC
+10:RO PCLO_LDC
+10:RST
+
+$54:jpf4_16
+%fetch
+%arg16
+%BITSEL_port_flag4(8)
+9:BO PCHI_LDC
+10:RO PCLO_LDC
+10:RST
+
+$55:jpf5_16
+%fetch
+%arg16
+%BITSEL_port_flag5(8)
+9:BO PCHI_LDC
+10:RO PCLO_LDC
+10:RST
+
+$56:jcbuf
+%fetch
+%BITSEL_cb(3)
+4:ABA_O PCHI_LDC
+5:ABB_O PCLO_LDC
+5:RST
+
+$57:jzbuf
+%fetch
+%BITSEL_zero(3)
+4:ABA_O PCHI_LDC
+5:ABB_O PCLO_LDC
+5:RST
+
+$58:jnbuf
+%fetch
+%BITSEL_negative(3)
+4:ABA_O PCHI_LDC
+5:ABB_O PCLO_LDC
+5:RST
+
+$59:jpf1_buf
+%fetch
+%BITSEL_port_flag1(3)
+4:ABA_O PCHI_LDC
+5:ABB_O PCLO_LDC
+5:RST
+
+$60:jpf2_buf
+%fetch
+%BITSEL_port_flag2(3)
+4:ABA_O PCHI_LDC
+5:ABB_O PCLO_LDC
+5:RST
+
+$61:jpf3_buf
+%fetch
+%BITSEL_port_flag3(3)
+4:ABA_O PCHI_LDC
+5:ABB_O PCLO_LDC
+5:RST
+
+$62:jpf4_buf
+%fetch
+%BITSEL_port_flag4(3)
+4:ABA_O PCHI_LDC
+5:ABB_O PCLO_LDC
+5:RST
+
+$63:jpf5_buf
+%fetch
+%BITSEL_port_flag5(3)
+4:ABA_O PCHI_LDC
+5:ABB_O PCLO_LDC
+5:RST
+
+
+$64:ldba8
+%fetch
+%*arg8
+7:ABA_I RO
+7:RST
+
+$65:ldba16
+%fetch
+%*arg16
+10:ABA_I RO
+10:RST
+
+$66:ldbai
+%fetch
+%arg8
+5:ABA_I RO
+5:RST
+
+$67:ldbb8
+%fetch
+%*arg8
+7:ABB_I RO
+7:RST
+
+$68:ldbb16
+%fetch
+%*arg16
+10:ABB_I RO
+10:RST
+
+$69:ldbbi
+%fetch
+%arg8
+5:ABB_I RO
+5:RST
+
+$70:swp_a_ba
+%fetch
+3:AO BI
+4:ABA_O AI
+5:ABA_I BI
+5:RST
+
+$71:swp_a_bb
+%fetch
+3:AO BI
+4:ABB_O AI
+5:ABB_I BI
+5:RST
+
+$72:swp_ba_bb
+%fetch
+3:ABA_O BI
+4:ABB_O ABA_I
+5:ABB_I BI
+5:RST
+
+$73:lda_buf
+%*buf
+5:AI RO
+5:RST
+
+$74:sta8
+%fetch
+%*arg8
+7:AO RI
+7:RST
+
+$75:sta16
+%fetch
+%*arg16
+10:AO RI
+10:RST
+
+$76:sta_buf
+%fetch
+%*buf
+5:AO RI
+5:RST
+
+$77:stba8
+%fetch
+%*arg8
+7:ABA_O RI
+7:RST
+
+$78:stba16
+%fetch
+%*arg16
+10:ABA_O RI
+10:RST
+
+$79:stba_buf
+%fetch
+%*buf
+5:ABA_O RI
+5:RST
+
+$80:stbb8
+%fetch
+%*arg8
+7:ABB_O RI
+7:RST
+
+$81:stbb16
+%fetch
+%*arg16
+10:ABB_O RI
+10:RST
+
+$82:stbb_buf
+%fetch
+%*buf
+5:ABB_O RI
 5:RST

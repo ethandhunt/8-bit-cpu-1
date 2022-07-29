@@ -35,15 +35,23 @@ control_line_values = {
         'PORT_ADDR':2**26,
         'PORT_ACK1':2**27,
         'PORT_ACK2':2**28,
-        'FLAG_BITSEL_LOAD':2**29,
+        'FLAG_BITSEL':2**29,
         'PC_INC':2**30,
         'RST':2**31,
         'ABA_I':2**32,
         'ABA_O':2**33,
         'ABB_I':2**34,
         'ABB_O':2**35,
-        'Z_O':2**36,
-        'HALT':2**37,
+        'HALT':2**36,
+        'BUS_O':2**37,
+        'BUS0':2**38,
+        'BUS1':2**39,
+        'BUS2':2**40,
+        'BUS3':2**41,
+        'BUS4':2**42,
+        'BUS5':2**43,
+        'BUS6':2**44,
+        'BUS7':2**45,
 }
 t_bits = 4
 op_bits = 8
@@ -197,7 +205,12 @@ for line_num, line in enumerate(micro):
 
         signals = signals.split(' ')
         for signal in signals:
-            ops[opcode][t] |= control_line_values[signal]
+            try:
+                ops[opcode][t] |= control_line_values[signal]
+
+            except KeyError:
+                print(f'{signal} does not appear to be a valid control signal')
+                exit(5)
 
         print(f'{t=}\t{signals=}')
         print(f'{ops[opcode][t]=}')
@@ -238,7 +251,7 @@ for x in range(2**op_bits):
 
 rom_text = 'v3.0 hex words plain\n'
 for x in rom:
-    rom_text += ' '.join([f'{y:010x}' for y in x]) + '\n'
+    rom_text += ' '.join([f'{y:012x}' for y in x]) + '\n'
 
 #print()
 #print(rom_text)

@@ -1,7 +1,8 @@
-little_endian
+16bit addresses are stored big endian (addrhi, addrlo)
 
 naming convention
-operation-8/16      8 bit or 16 bit addressing
+operation-8/16      8 bit or 16 bit addressing for a pointer
+operation-8rel      8 bit addressing without changing high register
 operation-i         immediate operand value
 operation-a         uses a register as operand
 operation-ba        uses buffer a register as operand
@@ -10,20 +11,20 @@ operation-bb        uses buffer b register as operand
 opcode  name        length  hex     cycles
 0       nop         1       00      3
 
-1       lda8        2       01      9
+1       lda8        2       01      8
 2       lda16       3       02      12
 3       ldai        2       03      6
 
-4       add8        2       04      10
+4       add8        2       04      9
 5       add16       3       05      13
 
-6       sub8        2       06      10
+6       sub8        2       06      9
 7       sub16       3       07      13
 
-8       mul8        2       08      10
+8       mul8        2       08      9
 9       mul16       3       09      13
 
-10      div8        2       0a      10
+10      div8        2       0a      9
 11      div16       3       0b      13
 
 12      halt        1       0c      4
@@ -53,3 +54,81 @@ opcode  name        length  hex     cycles
 
 28      portoi      2       1c      6
 29      portadri    2       1d      6
+
+30      jmp8        2       1e      7
+31      jmp16       3       1f      10
+32      jmpbuf      1       20      5
+
+33      jmpcnd8     2       21      7
+34      jmpcnd16    3       22      10
+35      jmpcndbuf   1       23      5
+
+36      setcnda     1       24      4
+37      setcndba    1       25      4
+38      setcndbb    1       26      4
+39      setcndi     2       27      6
+
+40      jc8         2       28      8
+41      jz8         2       29      8
+42      jn8         2       2a      8
+43      jpf1_8      2       2b      8
+44      jpf2_8      2       2c      8
+45      jpf3_8      2       2d      8
+46      jpf4_8      2       2e      8
+47      jpf5_8      2       2f      8
+
+48      jc16        3       30      11
+49      jz16        3       31      11
+50      jn16        3       32      11
+51      jpf1_16     3       33      11
+52      jpf2_16     3       34      11
+53      jpf3_16     3       35      11
+54      jpf4_16     3       36      11
+55      jpf5_16     3       37      11
+
+56      jcbuf       1       38      6
+57      jzbuf       1       39      6
+58      jnbuf       1       3a      6
+59      jpf1_buf    1       3b      6
+60      jpf2_buf    1       3c      6
+61      jpf3_buf    1       3d      6
+62      jpf4_buf    1       3e      6
+63      jpf5_buf    1       3f      6
+
+64      ldba8       2       40      8
+65      ldba16      3       41      11
+66      ldbai       2       42      6
+
+67      labb8       2       43      8
+68      ldbb16      3       44      11
+69      ldbbi       2       45      6
+
+70      swp_a_ba    1       46      6
+71      swp_a_bb    1       47      6
+72      swp_ba_bb   1       48      6
+
+73      lda_buf     1       49      6
+
+74      sta8        2       4a      8
+75      sta16       3       4b      11
+76      sta_buf     1       4c      6
+
+77      stba8       2       4d      8
+78      stba16      3       4e      11
+79      stba_buf    1       4f      6
+
+80      stbb8       2       50      8
+81      stbb16      3       51      11
+82      stbb_buf    1       52      6
+
+notes
+setcnd* disregards all bits except for 0-2
+in all address buffer instructions buffer a is addrhi and buffer b is addrlo
+
+checks
+0d v
+1a v
+1b v
+1c v
+1d v
+1e v
